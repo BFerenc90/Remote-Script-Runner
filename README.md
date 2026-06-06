@@ -1,4 +1,4 @@
-# Remote-Script-Runner
+# Remote Script Runner
 
 A tool for executing ad-hoc commands and custom PowerShell scripts on remote Windows computers with minimal permanent configuration changes.
 
