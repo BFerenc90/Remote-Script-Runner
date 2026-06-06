@@ -14,11 +14,14 @@ This approach allows administrators to perform remote management tasks without r
 
 - Execute ad-hoc PowerShell commands on remote computers
 - Run custom PowerShell scripts remotely
+- You can put your scripts into the Scripts folder and execute them with the tool
+- Remote Explorer: if the C drive is shared on the remote machine then the tool can connect to it
 - Uses WMI for initial connectivity
 - Starts WinRM only when required
 - Restores the original WinRM service state after execution
 - Reduces the attack surface compared to permanently enabled WinRM
 - Suitable for administrative and automation tasks
+- The tool can be started without Powershell console window by the runner.vbs
 
 # How it works
 
