@@ -1,9 +1,15 @@
-$Services = Get-Service | Sort-Object DisplayName
+$Services = Get-CimInstance Win32_Service |
+    Select-Object State, StartMode, DisplayName |
+    Sort-Object DisplayName |
+    Format-Table -AutoSize |
+    Out-String
 
-Write-Host "`n================ SERVICES ================`n"
+Write-Host @"
 
-$Services |
-    Select-Object Status, Name, DisplayName |
-    Format-Table -AutoSize
+================ SERVICES ================
 
-Write-Host "`n================================================`n"
+$Services
+
+================================================
+
+"@
