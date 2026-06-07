@@ -21,8 +21,9 @@ $ScriptsFolder = Join-Path $PSScriptRoot "Scripts"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Remote Script Runner"
     Width="700" Height="740"
+    MinHeight="400"
+    MinWidth="600"
     WindowStartupLocation="CenterScreen"
-    ResizeMode="CanMinimize"
     Background="#0D0D0F"
     FontFamily="Consolas">
 
