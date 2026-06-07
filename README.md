@@ -25,22 +25,22 @@ This approach allows administrators to perform remote management tasks without r
 
 # How it works
 
-Connects to the target computer using WMI.
-Detects the current state of the WinRM service.
-Starts WinRM if it is not already running.
-Executes the requested command or PowerShell script remotely.
-Collects execution results.
-Restores the WinRM service to its original state.
+1. Connects to the target computer using WMI.
+2. Detects the current state of the WinRM service.
+3. Starts WinRM if it is not already running.
+4. Executes the requested command or PowerShell script remotely.
+5. Collects execution results.
+6. Restores the WinRM service to its original state.
 
 # Requirments
 
-Windows PowerShell 5.1 or later
-Network connectivity to the target computer
-Appropriate administrative permissions
-WMI access enabled
-Remote administration permissions
-Firewall rules allowing WMI communication
-Security Considerations
+- Windows PowerShell 5.1 or later
+- Network connectivity to the target computer
+- Appropriate administrative permissions
+- WMI access enabled
+- Remote administration permissions
+- Firewall rules allowing WMI communication
+- Security Considerations
 
 Users should ensure that appropriate administrative permissions and network security controls are in place before using the tool.
 
