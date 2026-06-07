@@ -1,24 +1,53 @@
-# Output files
-$htmlReport = "C:\Temp\Energyreport.html"
+# Energy Report
+$EnergyReport = "C:\Temp\EnergyReport.html"
 
-Write-Host "The process will run for 30 seconds to check the energy usage..."
-Write-Host ""
+Write-Host @"
+
+================ ENERGY REPORT ================
+
+Status:
+The process will run for 30 seconds to analyze energy usage...
+
+================================================
+
+"@
 
 try {
+    powercfg /energy /output $EnergyReport /duration 30 | Out-Null
 
-    # Full HTML report
-    powercfg /energy /output $htmlReport /duration 30 | Out-Null
+    if (Test-Path $EnergyReport) {
+        $Status = "Successfully exported"
+    }
+    else {
+        $Status = "Report was not generated"
+    }
 
+    Write-Host @"
 
-    Write-Host "Energyreport exported successfully."
-    Write-Host ""
-    Write-Host "HTML Report:"
-    Write-Host $htmlReport
+================ ENERGY REPORT ================
 
+Status:
+$Status
+
+HTML Report:
+$EnergyReport
+
+================================================
+
+"@
 }
 catch {
+    Write-Host @"
 
-    Write-Host "Failed to generate Energyreport." -ForegroundColor Red
-    Write-Host $_.Exception.Message
+================ ENERGY REPORT ================
 
+Status:
+Failed to generate report
+
+Error:
+$($_.Exception.Message)
+
+================================================
+
+"@
 }
