@@ -1,3 +1,14 @@
+
+Write-Host @"
+================ CONFIGURATION MANAGER HEALTH REPORT ================
+
+State:
+Started
+
+=====================================================================
+"@
+
+
 $checksNumber = 0
 $successCount = 0
 $warningCount = 0
@@ -2177,3 +2188,16 @@ $hostname = $env:COMPUTERNAME
 $outputPath = "C:\Temp\" + $hostname + "_ConfigMgr_TS_Report.html"
 
 $htmlContent | Out-File -FilePath $outputPath -Encoding UTF8
+
+
+Write-Host @"
+================ CONFIGURATION MANAGER HEALTH REPORT ================
+
+State:
+Started
+
+Path of the report:
+$outputPath
+
+=====================================================================
+"@
