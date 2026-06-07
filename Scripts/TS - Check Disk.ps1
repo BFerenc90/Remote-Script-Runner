@@ -1,6 +1,34 @@
-$outputFile = "C:\Temp\CheckDisk.txt"
+# Check Disk Report
 
-Write-Host "Checking Disk..."
-$checkDisk = chkdsk /scan | Out-String
+try {
+    $checkDisk = chkdsk /scan | Out-String
 
-Add-Content -Path $outputFile -Value $checkDisk
+    Write-Host @"
+
+================ CHECK DISK ================
+
+State:
+Scan completed successfully
+
+Result:
+$checkDisk
+
+======================================================
+
+"@
+}
+catch {
+    Write-Host @"
+
+================ CHECK DISK ================
+
+State:
+Scan failed
+
+Error:
+$($_.Exception.Message)
+
+======================================================
+
+"@
+}
