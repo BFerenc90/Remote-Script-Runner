@@ -1,6 +1,40 @@
-$outputFile = "C:\Temp\sfcscannow.txt"
+# SFC Report
+$sfcReport = "C:\Temp\SFC_Report.txt"
 
-Write-Host "Executing SFC /SCANNOW..."
-$sfcscannow = sfc /scannow | Out-String
+try {
+    Start-Process `
+        -FilePath "sfc.exe" `
+        -ArgumentList "/scannow" `
+        -Wait `
+        -RedirectStandardOutput $sfcReport `
+        -NoNewWindow
 
-Add-Content -Path $outputFile -Value $sfcscannow
+    Write-Host @"
+
+================ SYSTEM FILE CHECK ================
+
+State:
+Completed successfully
+
+Result:
+$(Get-Content $sfcReport -Raw)
+
+==================================================
+
+"@
+}
+catch {
+    Write-Host @"
+
+================ SYSTEM FILE CHECK ================
+
+State:
+Execution failed
+
+Error:
+$($_.Exception.Message)
+
+==================================================
+
+"@
+}
