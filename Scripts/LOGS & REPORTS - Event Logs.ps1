@@ -1,43 +1,53 @@
-# ============================================================
-# Export Default Windows Event Logs
-# Saves System, Application and Security logs
-# into %TEMP%\EventLogs
-# ============================================================
+# Event Logs Export
+$ExportFolder = "C:\Temp\EventLogs"
+$DateToday = Get-Date -Format "yyyyMMdd_HHmmss"
 
-$exportFolder = "C:\Temp\EventLogs"
-$dateToday = Get-Date -Format "yyyyMMdd_HHmmss"
-
-# Create folder
-if (-not (Test-Path $exportFolder)) {
-    New-Item -Path $exportFolder -ItemType Directory -Force | Out-Null
+if (-not (Test-Path $ExportFolder)) {
+    New-Item -Path $ExportFolder -ItemType Directory -Force | Out-Null
 }
 
-# Default logs
-$logs = @(
+$Logs = @(
     "System",
     "Application",
     "Security"
 )
 
-foreach ($log in $logs) {
+$ExportResults = @()
 
+foreach ($Log in $Logs) {
     try {
+        $OutputFile = Join-Path $ExportFolder "$($Log)_$DateToday.evtx"
 
-        $outputFile = $exportFolder + "\" + "$log" + "_" + "$dateToday.evtx"
+        wevtutil epl $Log $OutputFile
 
-        Write-Host "Exporting $log..."
-
-        wevtutil epl $log $outputFile
-
+        $ExportResults += [PSCustomObject]@{
+            Log    = $Log
+            Status = "Exported"
+            File   = $OutputFile
+        }
     }
     catch {
-
-        Write-Host "Failed to export $log" -ForegroundColor Red
-        Write-Host $_.Exception.Message
-
+        $ExportResults += [PSCustomObject]@{
+            Log    = $Log
+            Status = "Failed"
+            File   = $_.Exception.Message
+        }
     }
 }
 
-Write-Host ""
-Write-Host "Done."
-Write-Host "Saved to: $exportFolder"
+$ResultTable = $ExportResults |
+    Format-Table -AutoSize |
+    Out-String
+
+Write-Host @"
+
+================ EVENT LOG EXPORT ================
+
+Export Folder:
+$ExportFolder
+
+$ResultTable
+
+==================================================
+
+"@
