@@ -1,24 +1,35 @@
-# Output files
-$htmlReport = "C:\Temp\Batteryreport.html"
-
-Write-Host "Generating Battery reports..."
-Write-Host ""
+# Battery report
+$BatteryReport = "C:\Temp\BatteryReport.html"
 
 try {
+    powercfg /batteryreport /output $BatteryReport | Out-Null
 
-    # Full HTML report
-    powercfg /batteryreport /output $htmlReport | Out-Null
+    Write-Host @"
 
+================ BATTERY REPORT ================
 
-    Write-Host "Batteryreport exported successfully."
-    Write-Host ""
-    Write-Host "HTML Report:"
-    Write-Host $htmlReport
+State:
+Export successfull
 
+Path of the report:
+$BatteryReport
+
+======================================================
+
+"@
 }
 catch {
+    Write-Host @"
 
-    Write-Host "Failed to generate Battery Report." -ForegroundColor Red
-    Write-Host $_.Exception.Message
+================ BATTERY REPORT ================
 
+State:
+Export failed
+
+Error:
+$($_.Exception.Message)
+
+======================================================
+
+"@
 }
