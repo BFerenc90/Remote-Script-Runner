@@ -1,9 +1,17 @@
-$outputFile = "C:\Temp\InstalledUpdates.txt"
+$Updates = Get-CimInstance Win32_QuickFixEngineering |
+    Select-Object Description, HotFixID, InstalledOn |
+    Sort-Object InstalledOn -Descending
 
-$Session = New-Object -ComObject Microsoft.Update.Session
-$Searcher = $Session.CreateUpdateSearcher()
-$HistoryCount = $Searcher.GetTotalHistoryCount()
-$lastUpdates = $Searcher.QueryHistory(0, $HistoryCount) | select Date, Title  | sort Date -Descending
+$UpdateTable = $Updates |
+    Format-Table -AutoSize |
+    Out-String
 
-Write-Host $lastUpdates
-Add-Content -Path $outputFile -Value $lastUpdates
+Write-Host @"
+
+================ WINDOWS UPDATES ================
+
+$UpdateTable
+
+=====================================================
+
+"@
