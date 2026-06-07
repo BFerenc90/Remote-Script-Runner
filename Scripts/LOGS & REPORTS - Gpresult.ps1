@@ -1,24 +1,35 @@
-# Output files
-$htmlReport = "C:\Temp\GPResult.html"
-
-Write-Host "Generating GPResult reports..."
-Write-Host ""
+# GPResult
+$GPResultReport = "C:\Temp\GPResult.html"
 
 try {
+    gpresult /H $GPResultReport /F | Out-Null
 
-    # Full HTML report (Computer + User policies)
-    gpresult /H $htmlReport /F | Out-Null
+    Write-Host @"
 
+================ GPRESULT REPORT ================
 
-    Write-Host "GPResult exported successfully."
-    Write-Host ""
-    Write-Host "HTML Report:"
-    Write-Host $htmlReport
+Status:
+Successfully exported
 
+HTML Report:
+$GPResultReport
+
+=================================================
+
+"@
 }
 catch {
+    Write-Host @"
 
-    Write-Host "Failed to generate GPResult." -ForegroundColor Red
-    Write-Host $_.Exception.Message
+================ GPRESULT REPORT ================
 
+Status:
+Failed to generate report
+
+Error:
+$($_.Exception.Message)
+
+=================================================
+
+"@
 }
