@@ -1,0 +1,9 @@
+$Services = Get-Service | Sort-Object DisplayName
+
+Write-Host "`n================ SERVICES ================`n"
+
+$Services |
+    Select-Object Status, Name, DisplayName |
+    Format-Table -AutoSize
+
+Write-Host "`n================================================`n"
